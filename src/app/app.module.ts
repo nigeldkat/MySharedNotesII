@@ -21,6 +21,7 @@ import { NoteMembersComponent } from './note-members/note-members.component';
 import { NotelistComponent } from './notelist/notelist.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { NoteService } from './note/note.service';
 
 
 import { AuthGuard } from './auth/auth.guard';
@@ -46,7 +47,7 @@ import { AuthGuard } from './auth/auth.guard';
     ReactiveFormsModule,
     AuthModule
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, NoteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

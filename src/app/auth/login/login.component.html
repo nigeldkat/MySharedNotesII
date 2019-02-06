@@ -1,24 +1,32 @@
-<section class="text-center">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<section class="text-center mb-4">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-signin">
     <h3>Login</h3>
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-
-    <label for="email" class="sr-only">Email address</label>
-    <input type="email" id="email" class="form-control" placeholder="Email address" formControlName="email" >
-
-    <label for="password" class="sr-only">Password</label>
-    <input type="password" id="password" class="form-control" placeholder="Password" formControlName="password" >
-
+    <div class="form-label-group">
+      <label for="email" class="sr-only">Email address</label>
+      <input type="email" id="email" class="form-control" placeholder="Email address" formControlName="email">
+      <div *ngIf="(Email.touched || userSubmitted) && (Email.invalid) " class="alert alert-danger">
+        <div *ngIf="Email.errors.required">Email Required.</div>
+        <div *ngIf="Email.errors.email">Email Invalid.</div>
+      </div>
+    </div>
+    <div class="form-label-group">
+      <label for="password" class="sr-only">Password</label>
+      <input type="password" id="password" class="form-control" placeholder="Password" formControlName="password">
+      <div *ngIf="(Password.touched || userSubmitted) && (Password.invalid) " class="alert alert-danger">
+        <div *ngIf="Password.errors.required">Password Required.</div>
+      </div>
+    </div>
     <div>
       <a routerLink="/reset-password">Forgot password?</a>
     </div>
 
-    <button *ngIf="!isLoading" type="submit" class="btn btn-lg btn-primary btn-block" [disabled]="loginForm.invalid">Submit</button>
-    <!-- <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+    <button *ngIf="!isLoading" type="submit" class="btn btn-lg btn-primary btn-block" >Submit</button>
+    <!-- [disabled]="loginForm.invalid" <mat-spinner *ngIf="isLoading"></mat-spinner> -->
 
 
-  
+
     <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
 
 
@@ -26,6 +34,3 @@
 
   </form>
 </section>
-
-
-
