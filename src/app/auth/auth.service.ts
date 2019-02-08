@@ -24,10 +24,20 @@ export class AuthService {
 
   constructor(private router: Router,
     private afAuth: AngularFireAuth,
-    //private afs: AngularFirestore,
+    private afs: AngularFirestore,
     private noteService: NoteService,
     //private uiService: UIService
-  ) { }
+  ) 
+  {
+    //const settings = { timestampsInSnapshots: true };
+    //afs.app.firestore().settings(settings);
+
+    // afs.firestore.settings({
+    //   timestampsInSnapshots: true,
+    // });
+    // afs.firestore.enablePersistence();
+
+  }
 
   initAuthListener() {
     this.afAuth.authState.subscribe(user => {
@@ -52,23 +62,52 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    console.log('in login')
-    console.log('pw ' , password);
     //this.uiService.loadingStateChanged.next(true);
-    this.afAuth.auth
-        .signInWithEmailAndPassword(email, password)
-        .then(result => {
-            console.log('successful login')
-            //this.uiService.loadingStateChanged.next(false);
-            this.router.navigate(['/notelist']);
-        })
-        .catch(error => {
-            console.log('failed login')
-            //this.uiService.loadingStateChanged.next(false);
-            //this.uiService.showSnackbar(error.message, null, 3000);
-        })
+    return this.afAuth.auth
+      .signInWithEmailAndPassword(email, password)
+      .then(result => {
+        //this.uiService.loadingStateChanged.next(false);
+        this.router.navigate(['/notelist']);
+      })
+      //need to rethrow error to get message back to ui
+      // .catch(error => {
+      //   console.log('failed login')
+      //   //this.uiService.loadingStateChanged.next(false);
+      //   //this.uiService.showSnackbar(error.message, null, 3000);
+      // })
 
-}
+  }
+
+  regusterUser(email: string, password: string, displayName: string) {
+    //this.uiService.loadingStateChanged.next(true);
+    return this.afAuth.auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(user => this.updateUserData(user, displayName))
+      .then(result => {
+        //this.uiService.loadingStateChanged.next(false);
+      })
+      //this will not return error message to user
+      // .catch(error => {
+      //   console.log('in error');
+      //   console.log(error);
+      //   //this.uiService.loadingStateChanged.next(false);
+      //   //this.uiService.showSnackbar(error.message, null, 3000);
+      // });
+  }
+
+  private updateUserData(user, displayName) {
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(
+      `users/${user.user.uid}`
+    );
+
+    const data: User = {
+      uid: user.user.uid,
+      email: user.email || null,
+      displayName: displayName
+    };
+    return userRef.set(data, { merge: true });
+  }
+
 
   isAuth() {
     return this.isAuthenticated;

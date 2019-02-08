@@ -1,3 +1,39 @@
-<p>
-  signup works!
-</p>
+<section class="text-center mb-4">
+  <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="form-signin">
+    <h3>Sign Up</h3>
+
+    <div class="form-label-group">
+      <label for="email" class="sr-only">Email address</label>
+      <input type="email" id="email" class="form-control" placeholder="Email address" formControlName="email">
+      <div *ngIf="(Email.touched || userSubmitted) && (Email.invalid) " class="alert alert-danger">
+        <div *ngIf="Email.errors.required">Email Required.</div>
+        <div *ngIf="Email.errors.email">Email Invalid.</div>
+      </div>
+    </div>
+
+    <div class="form-label-group">
+      <label for="password" class="sr-only">Password</label>
+      <input type="password" id="password" class="form-control" placeholder="Password" formControlName="password">
+      <div *ngIf="(Password.touched || userSubmitted) && (Password.invalid) " class="alert alert-danger">
+        <div *ngIf="Password.errors.required">Password Required.</div>
+        <div *ngIf="Password.errors.minlength">Password Must Be At Least 6 Characters.</div>
+      </div>
+    </div>
+
+    <div class="form-label-group">
+      <label for="username" class="sr-only">User Name</label>
+      <input type="text" id="username" class="form-control" placeholder="User Name" formControlName="username">
+      <div *ngIf="(UserName.touched || userSubmitted) && (UserName.invalid) " class="alert alert-danger">
+        <div *ngIf="UserName.errors.required">User Name Required.</div>
+      </div>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="serverError">
+      {{serverErrorMessage}}
+    </div>
+
+    <button *ngIf="!isLoading" type="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
+    <!-- [disabled]="loginForm.invalid" <mat-spinner *ngIf="isLoading"></mat-spinner> -->
+
+  </form>
+</section>

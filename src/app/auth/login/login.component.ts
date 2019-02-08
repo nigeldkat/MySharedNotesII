@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading: boolean = false;
   userSubmitted: boolean = false;
+  serverError: boolean = false;
+  serverErrorMessage: string;
 
   constructor(private authService: AuthService) { }
 
@@ -26,8 +28,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit(){
     this.userSubmitted = true;
-    alert('clicked submit');
-    this.authService.login(this.Email.value, this.Password.value);
+    this.serverError = false;
+    if(this.loginForm.valid){
+      this.authService.login(this.Email.value, this.Password.value).then(()=>{}).catch((error) => {        
+        this.serverError = true;
+        this.serverErrorMessage = error.message;
+      });;
+    }
   } 
 
 

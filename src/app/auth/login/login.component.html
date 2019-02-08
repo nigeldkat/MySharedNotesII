@@ -21,7 +21,9 @@
     <div>
       <a routerLink="/reset-password">Forgot password?</a>
     </div>
-
+    <div class="alert alert-danger" *ngIf="serverError">
+      {{serverErrorMessage}}
+    </div>
     <button *ngIf="!isLoading" type="submit" class="btn btn-lg btn-primary btn-block" >Submit</button>
     <!-- [disabled]="loginForm.invalid" <mat-spinner *ngIf="isLoading"></mat-spinner> -->
 
