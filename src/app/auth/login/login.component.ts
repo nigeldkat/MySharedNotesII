@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service'; 
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   isLoading: boolean = false;
   userSubmitted: boolean = false;
   serverError: boolean = false;
   serverErrorMessage: string;
+  authSubscription: Subscription;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService , private router: Router) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -24,6 +27,18 @@ export class LoginComponent implements OnInit {
       }),
       password: new FormControl('', { validators: [Validators.required] })
     });
+
+    this.authSubscription = this.authService.authChange.subscribe(authStatus => {
+      if(authStatus == true){
+        this.router.navigate(['/notelist']);
+      }
+    })
+  }
+
+  ngOnDestroy(){  
+    if(this.authSubscription){
+      this.authSubscription.unsubscribe();
+    }
   }
 
   onSubmit(){

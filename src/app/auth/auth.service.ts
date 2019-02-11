@@ -27,8 +27,7 @@ export class AuthService {
     private afs: AngularFirestore,
     private noteService: NoteService,
     //private uiService: UIService
-  ) 
-  {
+  ) {
     //const settings = { timestampsInSnapshots: true };
     //afs.app.firestore().settings(settings);
 
@@ -41,9 +40,9 @@ export class AuthService {
 
   initAuthListener() {
     this.afAuth.authState.subscribe(user => {
-      console.log('in subscribe code return for authstate')
+      //console.log('in subscribe code return for authstate')
       if (user) {
-        console.log('in auth callback true');
+        //console.log('in auth callback true');
         this.isAuthenticated = true;
         this.authChange.next(true);
         this.user = user;
@@ -51,7 +50,7 @@ export class AuthService {
         //this overrides any page not found errors
         //this.router.navigate(['/note']);
       } else {
-        console.log('in auth callback false');
+        //console.log('in auth callback false');
         this.isAuthenticated = false;
         this.noteService.cancelSubscriptions();
         this.authChange.next(false);
@@ -69,12 +68,12 @@ export class AuthService {
         //this.uiService.loadingStateChanged.next(false);
         this.router.navigate(['/notelist']);
       })
-      //need to rethrow error to get message back to ui
-      // .catch(error => {
-      //   console.log('failed login')
-      //   //this.uiService.loadingStateChanged.next(false);
-      //   //this.uiService.showSnackbar(error.message, null, 3000);
-      // })
+    //need to rethrow error to get message back to ui
+    // .catch(error => {
+    //   console.log('failed login')
+    //   //this.uiService.loadingStateChanged.next(false);
+    //   //this.uiService.showSnackbar(error.message, null, 3000);
+    // })
 
   }
 
@@ -86,14 +85,18 @@ export class AuthService {
       .then(result => {
         //this.uiService.loadingStateChanged.next(false);
       })
-      //this will not return error message to user
-      // .catch(error => {
-      //   console.log('in error');
-      //   console.log(error);
-      //   //this.uiService.loadingStateChanged.next(false);
-      //   //this.uiService.showSnackbar(error.message, null, 3000);
-      // });
+    //this will not return error message to user
+    // .catch(error => {
+    //   console.log('in error');
+    //   console.log(error);
+    //   //this.uiService.loadingStateChanged.next(false);
+    //   //this.uiService.showSnackbar(error.message, null, 3000);
+    // });
   }
+
+  get currentUserId(): string {
+    return this.isAuthenticated ? this.user.uid : null
+}
 
   private updateUserData(user, displayName) {
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(
@@ -112,10 +115,13 @@ export class AuthService {
     return firebase
       .auth()
       .sendPasswordResetEmail(email)
-      //.then(() => console.log("We've sent you a password reset link"))
-      //.catch(error => console.log(error.message));
+    //.then(() => console.log("We've sent you a password reset link"))
+    //.catch(error => console.log(error.message));
   }
 
+  logout() {
+    this.afAuth.auth.signOut();
+  }
 
   isAuth() {
     return this.isAuthenticated;
