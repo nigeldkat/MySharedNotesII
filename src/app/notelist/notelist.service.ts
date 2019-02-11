@@ -1,0 +1,83 @@
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
+
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { NoteList } from './notelist.model';
+import { AuthService } from '../auth/auth.service';
+
+@Injectable()
+export class NoteListService {
+    notesChanged = new Subject<NoteList[]>();
+    private fbSubs: Subscription[] = [];
+
+    constructor(private db: AngularFirestore, private authService: AuthService) { }
+
+    fetchNotes() {
+        const uid :string = this.authService.currentUserId;
+        this.fbSubs.push(
+            
+            
+            this.db.collection(`Lists`, ref => ref.where(`Members.${uid}`,'==',true)).valueChanges().subscribe(
+                (notes: NoteList[]) => {
+                    this.notesChanged.next(notes);
+                }
+            )            
+
+            // this.db.collection(`Lists`, ref => ref.where('Desc',"==",'Groceries')).valueChanges().subscribe(
+            //     (notes: NoteList[]) => {
+            //         this.notesChanged.next(notes);
+            //     }
+            // )
+        
+        );
+    }
+
+    addNoteToNoteList(desc: string){
+        const uid :string = this.authService.currentUserId;
+        let item: NoteList = {
+            Creator : uid,
+            Desc : desc,
+            ID : 'tempid',
+            Members : {[uid]: true}
+        } 
+        console.log('item - ', item);
+        this.db.collection(`Lists`).add(item).then(data => {
+            //console.log('in then data - ', data);
+            //console.log('data id - ', data.id);
+
+            const list : AngularFirestoreDocument<NoteList> = this.db.doc(`Lists/${data.id}`)
+            item.ID = data.id;
+            
+            //for now hard code Kathy
+            //const newUID: string = 'zGrpwEsF0xc25bR6O6KuTHFkZxM2';
+            //item.Members[newUID] = true;
+            // let result = '';
+            // for (let i in item.Members){
+            //     console.log('in for');
+            //     if(item.Members.hasOwnProperty(i)){
+            //         console.log('memlist.' + i + item.Members[i]);
+            //     }
+            // }
+
+            //console.log(item.Members.toString);
+            list.set(item, {merge: true});
+
+
+        });
+    }
+
+    deleteNoteList(ID: string){
+        const list : AngularFirestoreDocument<NoteList> = this.db.doc(`Lists/${ID}`);
+        list.delete();
+    }
+
+    cancelSubscriptions() {
+        this.fbSubs.forEach(sub => {
+            if (sub) {
+                sub.unsubscribe();
+            }
+        });
+    }
+
+}

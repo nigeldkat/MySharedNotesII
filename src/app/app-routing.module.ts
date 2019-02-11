@@ -18,7 +18,7 @@ const routes: Routes = [
     { path: 'welcome', component: WelcomeComponent},
     { path: 'reset-password', component: ResetPasswordComponent},
     { path: 'note/:id/:desc', component: NoteComponent},
-    { path: 'notelist', component: NotelistComponent, canActivate:[AuthGuard]}, 
+    { path: 'notelist', loadChildren: './notelist/notelist.module#NoteListModule', canLoad:[AuthGuard]}, 
     { path: 'notemembers/:id', component: NoteMembersComponent},   
     //{ path: '**', component: PageNotFoundComponent}  
     //page not found overrode by code in auth service isauth listner
