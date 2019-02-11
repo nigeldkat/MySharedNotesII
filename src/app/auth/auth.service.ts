@@ -108,6 +108,14 @@ export class AuthService {
     return userRef.set(data, { merge: true });
   }
 
+  resetPassword(email: string) {
+    return firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      //.then(() => console.log("We've sent you a password reset link"))
+      //.catch(error => console.log(error.message));
+  }
+
 
   isAuth() {
     return this.isAuthenticated;
