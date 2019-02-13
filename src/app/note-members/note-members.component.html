@@ -1,3 +1,27 @@
-<p>
-  note-members works!
-</p>
+<section>
+  <h3>Members in {{listWithMembers?.Desc}} List</h3>
+  <div>
+      <ul>
+          <li *ngFor="let m of listWithMembers?.Members">
+              <div>{{m?.displayName}}</div>
+              
+          </li>
+      </ul>
+  </div>
+
+  <div>
+    <h3>Add Member To List</h3>
+    <form #f="ngForm" (ngSubmit)="addMemberToNote(f)">
+
+            <p>{{addMemberStatus}}</p>
+
+                <input type="email" matInput placeholder="Search for email" ngModel name="email" email required #emailInput="ngModel">
+                <div *ngIf="emailInput.hasError('required')">Email is required.</div>
+                <div *ngIf="!emailInput.hasError('required')">E-Mail is invalid.</div>
+
+        
+            <button type="submit"  color="primary" [disabled]="f.invalid">Add Member to List</button>
+        
+    </form>
+  </div>
+</section>

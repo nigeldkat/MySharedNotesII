@@ -8,10 +8,10 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 
 //import { NoteComponent } from './note/note.component';
 //import { NotelistComponent } from './notelist/notelist.component';
-import { NoteMembersComponent } from './note-members/note-members.component';
+//import { NoteMembersComponent } from './note-members/note-members.component';
 
 import { AuthGuard } from './auth/auth.guard';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+//import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'notelist', pathMatch: 'full'}, 
@@ -20,7 +20,8 @@ const routes: Routes = [
    //{ path: 'note/:id/:desc', component: NoteComponent},
     { path: 'note/:id/:desc', loadChildren: './note/note.module#NoteModule', canLoad:[AuthGuard]},
     { path: 'notelist', loadChildren: './notelist/notelist.module#NoteListModule', canLoad:[AuthGuard]}, 
-    { path: 'notemembers/:id', component: NoteMembersComponent},   
+    //{ path: 'notemembers/:id', component: NoteMembersComponent},   
+    { path: 'notemembers/:id', loadChildren: './note-members/note-members.module#NoteMembersModule', canLoad:[AuthGuard]},   
     //{ path: '**', component: PageNotFoundComponent}  
     //page not found overrode by code in auth service isauth listner
     //or just not working in this config

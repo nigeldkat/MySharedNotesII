@@ -17,10 +17,10 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 //import { SignupComponent } from './auth/signup/signup.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 //import { NoteComponent } from './note/note.component';
-import { NoteMembersComponent } from './note-members/note-members.component';
+//import { NoteMembersComponent } from './note-members/note-members.component';
 //import { NotelistComponent } from './notelist/notelist.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+//import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NoteService } from './note/note.service';
 
 
@@ -32,10 +32,10 @@ import { AuthGuard } from './auth/auth.guard';
     ResetPasswordComponent,
     NavBarComponent,
     //NoteComponent,
-    NoteMembersComponent,
+    //NoteMembersComponent,
     //NotelistComponent,
     WelcomeComponent,
-    PageNotFoundComponent
+    //PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
