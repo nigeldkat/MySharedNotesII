@@ -1,3 +1,42 @@
-<p>
-  note works!
-</p>
+<section>
+  <h2>{{desc}} List</h2>
+  <div>
+    <h5>Items</h5>
+    <div style="width:250px;" *ngFor="let note of noteList">
+      <div style="padding-top: 10px; padding-left: 0px; width:150px; float:left">{{note.Desc}}</div>
+      <div style=" padding-right: 0; width:90px; float:right;">
+        <button style="float:right; width:28px; height: 28px;" title="Delete" (click)='deleteNote(note.ID)'>
+
+        </button>
+        <button style="float:right; width:28px; height: 28px;" (click)="selectedItem(note.ID, true)" title="Got It">
+
+        </button>
+      </div>
+    </div>
+  </div>
+  <form (ngSubmit)="addNewNote(f)" #f="ngForm">
+    <h2>Add Items</h2>
+    <div>
+      <input type="text" maxlength="25" placeholder="Item" ngModel name="listItem" required>
+    </div>
+    <div>
+      <button type="submit" [disabled]="f.invalid">Add Item</button>
+    </div>
+  </form>
+  <div>
+      <div>
+          <p>Items you'll add to the list again</p>
+      </div>
+      <div style="width:250px;" *ngFor="let note of oldNoteList">
+          <div style="padding-top: 10px; padding-left: 0px; width:150px; float:left">{{note.Desc}}</div>
+          <div style=" padding-right: 0; width:90px; float:right;">
+              <button style="float:right; width:28px; height: 28px;"  title="Delete" (click)='deleteNote(note.ID)'>
+                  
+              </button>
+              <button style="float:right; width:28px; height: 28px;"  (click)="selectedItem(note.ID, false)" title="Add To List">
+                  
+              </button>
+          </div>
+      </div>
+  </div>
+</section>

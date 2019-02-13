@@ -16,7 +16,7 @@ import { environment } from '../environments/environment';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 //import { SignupComponent } from './auth/signup/signup.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { NoteComponent } from './note/note.component';
+//import { NoteComponent } from './note/note.component';
 import { NoteMembersComponent } from './note-members/note-members.component';
 //import { NotelistComponent } from './notelist/notelist.component';
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -31,7 +31,7 @@ import { AuthGuard } from './auth/auth.guard';
     AppComponent,
     ResetPasswordComponent,
     NavBarComponent,
-    NoteComponent,
+    //NoteComponent,
     NoteMembersComponent,
     //NotelistComponent,
     WelcomeComponent,

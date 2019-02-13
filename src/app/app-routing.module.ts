@@ -6,8 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
-import { NoteComponent } from './note/note.component';
-import { NotelistComponent } from './notelist/notelist.component';
+//import { NoteComponent } from './note/note.component';
+//import { NotelistComponent } from './notelist/notelist.component';
 import { NoteMembersComponent } from './note-members/note-members.component';
 
 import { AuthGuard } from './auth/auth.guard';
@@ -17,7 +17,8 @@ const routes: Routes = [
     { path: '', redirectTo: 'notelist', pathMatch: 'full'}, 
     { path: 'welcome', component: WelcomeComponent},
     { path: 'reset-password', component: ResetPasswordComponent},
-    { path: 'note/:id/:desc', component: NoteComponent},
+   //{ path: 'note/:id/:desc', component: NoteComponent},
+    { path: 'note/:id/:desc', loadChildren: './note/note.module#NoteModule', canLoad:[AuthGuard]},
     { path: 'notelist', loadChildren: './notelist/notelist.module#NoteListModule', canLoad:[AuthGuard]}, 
     { path: 'notemembers/:id', component: NoteMembersComponent},   
     //{ path: '**', component: PageNotFoundComponent}  
